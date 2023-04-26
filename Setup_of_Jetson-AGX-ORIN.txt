@@ -1,0 +1,68 @@
+Mostly follow the guide, but there is some small thing to notice.
+
+sudo bash -c 'echo "deb https://repo.download.nvidia.com/jetson/common r34.1 main" >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list'
+sudo bash -c 'echo "deb https://repo.download.nvidia.com/jetson/t234 r34.1 main" >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list'
+
+After this two commond you may not see the R34 (release), REVISION: 1.0 or newer, but not worried just continue.
+
+sudo apt update
+sudo apt dist-upgrade
+sudo reboot
+sudo apt install nvidia-jetpack
+
+you may fail in process, type in below command:
+deb https://repo.download.nvidia.com/jetson/common r34.1 main
+deb https://repo.download.nvidia.com/jetson/t234 r34.1 main
+sudo apt update
+sudo apt dist-upgrade
+sudo reboot
+sudo apt install nvidia-jetpack
+
+to check Jetpack version use:
+sudo apt-cache show nvidia-jetpack
+
+and get something like this:
+Package: nvidia-jetpack
+Version: 4.6-b199
+Architecture: arm64
+Maintainer: NVIDIA Corporation
+
+to check the peference of orin:
+sudo pip3 install jetson-stats
+sudo jtop
+
+you will than have an interface with all the cpu, gpu ,etc perforamce (jetpak must be install first)
+
+Reference:
+1. https://developer.nvidia.com/embedded/learn/get-started-jetson-agx-orin-devkit
+2. https://forums.developer.nvidia.com/t/unable-to-locate-package-nvidia-jetpack-on-orin-devkit/210894/4
+3. https://blog.csdn.net/HaoZiHuang/article/details/119903753
+4. https://mp.weixin.qq.com/s?__biz=MjM5NTE3Nzk4MQ==&mid=2651237328&idx=1&sn=8774ea2d8da50298d2cd14bb99ff7a9b&chksm=bd0e7f428a79f6544ec96c9fc71f6da7280f40010d245088a48fa79f3aa1ca74fd5ee0c99c70&scene=21#wechat_redirect
+
+
+
+if failed while cmake (build own project)
+try check the cuda
+
+$ cd /usr/local
+$ ls
+bin cuda-11 etc include jtop man share
+cuda cuda-11.4 games jetson_stats lib sbin src
+
+(this cuda is in red color. i think this cuda file create by cmake?
+after i link the cuda file to the cuda-11.4 it work now.)
+
+$ sudo rm -r cuda
+$ ls
+bin cuda-11.4 games jetson_stats lib sbin src
+cuda-11 etc include jtop man share
+
+$ sudo ln -s cuda-11.4 cuda
+$ ls
+bin cuda-11 etc include jtop man share
+cuda cuda-11.4 games jetson_stats lib sbin src
+$ cd cuda
+$ ls
+bin EULA.txt lib64 README targets
+compute-sanitizer extras nvml samples tools
+DOCS include nvvm share version.json
